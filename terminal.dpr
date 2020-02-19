@@ -36,7 +36,7 @@ const
  TopMenuIndention=1; //отступ сверху меню
  LengthStr=20; //ограничение строки вывода в симолах
  MaxCountError=100000000;
- Version='3.5.59.1';
+ Version='3.5.61.1';
 
 type
 
@@ -1664,7 +1664,7 @@ begin
         ' and DrinkKind.DrinkId=Drink.Id'+
         ' and DrinkKind.PartyCertificateId=pc.Id'+
         ' and RAck.RacktypeId=0+RackType.Id'+
-        ' and Codes.Id = '+Copy(InputLine,2,8);
+        ' and Codes.Id = '+Copy(InputLine,2,Length(InputLine));
      if not OpenIBQ(ReadIBQ,CmdText,Error,ErrorMessage) then
       begin
        if Error then
@@ -2047,7 +2047,7 @@ begin
         ' and DrinkKind.DrinkId=Drink.Id'+
         ' and DrinkKind.PartyCertificateId=pc.Id'+
         ' and RAck.RacktypeId=0+RackType.Id'+
-        ' and Codes.Id = '+Copy(InputLine,2,8)+
+        ' and Codes.Id = '+Copy(InputLine,2,Length(InputLine))+
         ' and Rack.storagesectionid = '+Sale.StorageSectionId;
      if not OpenIBQ(ReadIBQ,CmdText,Error,ErrorMessage) then
       begin
@@ -4078,7 +4078,7 @@ begin
      end
     else
      begin
-     CodesId:= IntToStr(StrToIntDef(Copy(InputLine,2,8),0));
+     CodesId:= IntToStr(StrToIntDef(Copy(InputLine,2,Length(InputLine)),0));
      if CodesId='0' then//если штрих-кода не верeн
       begin
        DrawError('Неверный штрих-код. Для продолжения нажмите Ok');
@@ -4243,7 +4243,7 @@ begin
       end
      else
       begin
-       CodesId:= IntToStr(StrToIntDef(Copy(InputLine,2,8),0));
+       CodesId:= IntToStr(StrToIntDef(Copy(InputLine,2,Length(InputLine)),0));
        CmdText:='select id from codes co where co.outdrinkrackid is null'+
                 ' and co.rackid='+TransportationFromRackToRack.SourceRackId+
                 ' and co.drinkkindid='+TransportationFromRackToRack.SourceDrinkKindId+
@@ -6680,7 +6680,7 @@ begin
     begin
      if CheckBarcodeOnLabel(InputLine) then
       begin
-       Removing.CodesID:= IntToStr(StrToIntDef(Copy(InputLine,2,8),0));
+       Removing.CodesID:= IntToStr(StrToIntDef(InputLine,0));
 
        if Removing.CodesId='0' then
         begin //если штрих-кода не верeн
@@ -6804,7 +6804,7 @@ begin
     DrawError('Неверный штрих-код. Для продолжения нажмите Ok')
    else
     begin
-     CodesId:= IntToStr(StrToIntDef(Copy(InputLine,2,8),0));
+     CodesId:= IntToStr(StrToIntDef(InputLine,0));
 
      if CodesId='0' then
       begin //если штрих-кода не верeн
@@ -7284,7 +7284,7 @@ begin
              'join drinkkind dk on dk.id=co.drinkkindid '+
              'join rack r on r.id=co.rackid '+
              'join box bx on bx.id=dk.saleboxid '+
-             'where co.id='+Copy(InputLine,2,8);
+             'where co.id='+Copy(InputLine,2,Length(InputLine));
 
     if not OpenIBQ(ReadIBQ,CmdText,Error,ErrorMessage) then
      begin
