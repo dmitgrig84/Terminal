@@ -36,7 +36,7 @@ const
  TopMenuIndention=1; //отступ сверху меню
  LengthStr=20; //ограничение строки вывода в симолах
  MaxCountError=100000000;
- Version='3.5.61.1';
+ Version='3.5.62.1';
 
 type
 
@@ -6680,7 +6680,7 @@ begin
     begin
      if CheckBarcodeOnLabel(InputLine) then
       begin
-       Removing.CodesID:= IntToStr(StrToIntDef(InputLine,0));
+       Removing.CodesID:=IntToStr(StrToIntDef(Copy(InputLine,2,Length(InputLine)),0));
 
        if Removing.CodesId='0' then
         begin //если штрих-кода не верeн
@@ -6804,7 +6804,7 @@ begin
     DrawError('Неверный штрих-код. Для продолжения нажмите Ok')
    else
     begin
-     CodesId:= IntToStr(StrToIntDef(InputLine,0));
+     CodesId:= IntToStr(StrToIntDef(Copy(InputLine,2,Length(InputLine)),0));
 
      if CodesId='0' then
       begin //если штрих-кода не верeн
